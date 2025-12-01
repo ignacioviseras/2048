@@ -91,6 +91,7 @@ body{
 .num {
     background-color: #246d74;
     border-radius: 4px;
+    font-size: xx-large;
     display: flex;
     text-align: center;
     align-items: center;
@@ -115,10 +116,16 @@ body{
     color: #45f3ff;
 }
 
-input[type="submit"]{
+.buttons {
+    display: flex;
+    justify-content: end;
+}
+
+
+input[type="button"]{
     border: none;
     outline: none;
-    background: #45f3ff;
+    background: #45f3ffba;
     padding: 11px 25px;
     width: 100px;
     margin-top: 10px;
@@ -126,8 +133,9 @@ input[type="submit"]{
     font-weight: 600;
     cursor: pointer;
 }
+
 /* opacidad al clikcar */
-input[type="submit"]:active{
+input[type="button"]:active{
     opacity: 0.8;
 }
 
