@@ -24,7 +24,7 @@ function createGrid() {
         
     }
     console.table(game);
-    // initGame();
+    playGame();
 }
 
 /**
@@ -32,12 +32,50 @@ function createGrid() {
 */
 function getRandom(x) {
     return Math.floor(Math.random() * x);
+}
+
+function playGame() {
+    document.addEventListener("keydown", function(event) {
+       if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(event.key))
+        event.preventDefault();
+        switch(event.key) {
+            case "ArrowUp":
+                // handleUP();
+                console.log("up");
+                break;
+            case "ArrowDown":
+                // handleDown();
+                console.log("down");
+                break;
+            case "ArrowLeft":
+                // handleLeft();
+                console.log("left");
+                break;
+            case "ArrowRight":
+                // handleRight();
+                console.log("right");
+                break;
+        }
+    });
+}
+
+function restartGame() {
+    const btn = document.querySelector('input[type="button"]');
+    btn.addEventListener("click", function () {
+        console.log("cle");
+        for (let i = 0; i < game.length; i++) {
+            for (let j = 0; j < game[i].length; j++) {
+                game[i][j] = 0;
+            }
+        }
+        createGrid();
+    });
+    
 
 }
 
-// function initGame() {
-    
-
-// }
 
 createGrid();
+restartGame();
+// playGame();
+
