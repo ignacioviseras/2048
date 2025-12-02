@@ -29,7 +29,7 @@ body{
     left: -50%;
     width: 380px;
     height: 420px;
-    background: linear-gradient(0deg, transparent, #45f3ffb1, #45f3ffb1);
+    background: linear-gradient(0deg, transparent, #8FA812b1, #8FA812b1);
     transform-origin: bottom right;
     animation: animate 40s linear infinite;
 }
@@ -41,7 +41,7 @@ body{
     left: -50%;
     width: 380px;
     height: 420px;
-    background: linear-gradient(0deg, transparent, #45f3ffb1, #45f3ffb1);/* 45f3ff */
+    background: linear-gradient(0deg, transparent, #8FA812b1, #8FA812b1);
     transform-origin: bottom right;
     animation: animate 40s linear infinite;
     animation-delay: -20s;
@@ -59,19 +59,28 @@ body{
 
 /* cabecera */
 .game-table h2{
-    color: #45f3ff;
+    color: #8FA812;
     font-family: Verdana;
     font-weight: 500;
     text-align: center;
 }
 
 .game-title {
-    color: #45f3ff;
-    justify-content: center;
+    color: #8FA812;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 15px;
     font-size: xx-large;
 }
+/* 
+.globant-logo {
+    position: relative;
+    width: 40px;
+    height: 24px;
+} */
+
 
 /* tablilla */
 .game-table{
@@ -89,7 +98,6 @@ body{
 
 
 .num {
-    background-color: #246d74;
     border-radius: 4px;
     font-size: xx-large;
     display: flex;
@@ -113,7 +121,7 @@ body{
 /* el 2 tramo hace q este siempre marcado el 2do a */
 .links a:hover,
 .links a:nth-child(2){
-    color: #45f3ff;
+    color: #8FA812;
 }
 
 .buttons {
@@ -124,7 +132,7 @@ body{
 .score-container {
     align-content: center;
     margin-left: 10px;
-    color: #45f3ff;
+    color: #8FA812;
     font-weight: bold;
     font-size: larger;
 }
@@ -132,7 +140,7 @@ body{
 input[type="button"]{
     border: none;
     outline: none;
-    background: #45f3ffba;
+    background: #C6DF22bb;
     padding: 11px 25px;
     width: 100px;
     margin-top: 10px;
