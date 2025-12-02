@@ -246,6 +246,14 @@ function spawnTile() {
 
     let [x, y] = empty[Math.floor(Math.random() * empty.length)];
     game[x][y] = Math.random() < 0.5 ? 2 : 4;
+
+    const gameTable = document.querySelector(".game-table");
+    const index = x * 4 + y;
+    const cell = gameTable.children[index];
+    cell.classList.add("new-tile");
+    setTimeout(() => {
+        cell.classList.remove("new-tile");
+    }, 200);
 }
 
 function hasChanged(before, after) {
@@ -256,6 +264,7 @@ function hasChanged(before, after) {
     }
     return false;
 }
+
 
 function handleUP() {
     const before = game.map(row => [...row]);
