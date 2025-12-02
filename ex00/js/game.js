@@ -8,6 +8,9 @@ const game = [
 let scoreValue = 0;
 let topScore = 0;
 let isMoving = false;
+let merges = [];
+let movements = [];
+
 
 function createGrid() {
     
@@ -49,7 +52,8 @@ function updateGrid() {
     document.querySelector("#score-value").textContent = scoreValue;
     const cells = gameTable.children;
     let x = 0;
-
+    animateMovements();
+    movements = [];
     for (let i = 0; i < game.length; i++) {
         for (let j = 0; j < game[i].length; j++) {
             let value = game[i][j];
@@ -60,6 +64,14 @@ function updateGrid() {
         }
         
     }
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            for (let [x, y] of merges) {
+                animateMerge(x, y);
+            }
+            merges = [];
+        });
+    });
     if (loseGame()){
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -140,6 +152,7 @@ function moveUp() {
             while (x > 0 && game[x-1][j] === 0) {
                 game[x-1][j] = game[x][j];
                 game[x][j] = 0;
+                movements.push([i, j, "up"]);
                 x--;
             }
         }
@@ -153,6 +166,7 @@ function mergeUp() {
                 game[i - 1][j] *= 2;
                 scoreValue += game[i - 1][j];
                 game[i][j] = 0;
+                merges.push([i - 1, j]);
             }
         }
     }
@@ -165,6 +179,7 @@ function moveDown() {
             while (x < game.length - 1 && game[x + 1][j] === 0) {
                 game[x + 1][j] = game[x][j];
                 game[x][j] = 0;
+                movements.push([i, j, "down"]);
                 x++;
             }
         }
@@ -178,6 +193,7 @@ function mergeDown() {
                 game[i + 1][j] *= 2;
                 scoreValue += game[i + 1][j];
                 game[i][j] = 0;
+                merges.push([i + 1, j]);
             }
         }
     }
@@ -190,6 +206,7 @@ function moveLeft() {
             while (y > 0 && game[i][y - 1] === 0) {
                 game[i][y - 1] = game[i][y];
                 game[i][y] = 0;
+                movements.push([i, j, "left"]);
                 y--;
             }
         }
@@ -203,6 +220,7 @@ function mergeLeft() {
                 game[i][j - 1] *= 2;
                 scoreValue += game[i][j - 1];
                 game[i][j] = 0;
+                merges.push([i, j - 1]);
             }
         }
     }
@@ -215,6 +233,7 @@ function moveRight() {
             while (y < game[i].length - 1 && game[i][y + 1] === 0) {
                 game[i][y + 1] = game[i][y];
                 game[i][y] = 0;
+                movements.push([i, j, "right"]);
                 y++;
             }
         }
@@ -228,6 +247,7 @@ function mergeRight() {
                 game[i][j + 1] *= 2;
                 scoreValue += game[i][j + 1];
                 game[i][j] = 0;
+                merges.push([i, j + 1]);
             }
         }
     }
@@ -255,6 +275,46 @@ function spawnTile() {
         cell.classList.remove("new-tile");
     }, 200);
 }
+
+function animateMerge(x, y) {
+    const gameTable = document.querySelector(".game-table");
+    const index = x * 4 + y;
+    const cell = gameTable.children[index];
+
+    cell.classList.add("num-merged");
+    setTimeout(() => {
+        cell.classList.remove("num-merged");
+    }, 400);
+}
+
+function animateMovements() {
+    const gameTable = document.querySelector(".game-table");
+    const cells = gameTable.children;
+
+    for (let [x, y, dir] of movements) {
+        const index = x * 4 + y;
+        const cell = cells[index];
+
+        if (!cell)
+            continue;
+        cell.style.setProperty("--delay", `${index * 50}ms`);
+        if (dir === "up")
+            cell.classList.add("move-up");
+        if (dir === "down") 
+            cell.classList.add("move-down");
+        if (dir === "left")
+            cell.classList.add("move-left");
+        if (dir === "right")
+            cell.classList.add("move-right");
+    }
+
+    setTimeout(() => {
+        for (let cell of cells) {
+            cell.classList.remove("move-up", "move-down", "move-left", "move-right");
+        }
+    }, 120);
+}
+
 
 function hasChanged(before, after) {
     for (let i = 0; i < before.length; i++) {
