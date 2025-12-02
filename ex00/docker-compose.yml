@@ -1,11 +1,9 @@
 services:
-  nginx:
-    image: nginx:alpine
+  web:
     container_name: nginx
+    build:
+      context: .
     ports:
       - 5173:80
     volumes:
-      - ./front/html:/usr/share/nginx/html/
-      - ./front/css:/usr/share/nginx/html/css/
-      - ./front/js:/usr/share/nginx/html/js/
-      - ./.logs/nginx:/var/log/nginx
+      - ./ex00:/usr/share/nginx/html/
