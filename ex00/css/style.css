@@ -129,8 +129,15 @@ body{
     justify-content: space-between;
 }
 
+.score {
+    font-size: large;
+}
+
 .score-container {
+    display: flex;
+    flex-direction: column;
     align-content: center;
+    margin-top: 7px;
     margin-left: 10px;
     color: #8FA812;
     font-weight: bold;

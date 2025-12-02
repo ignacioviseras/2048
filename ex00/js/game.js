@@ -4,13 +4,19 @@ const game = [
     [0,0,0,0],
     [0,0,0,0]
 ];
+
 let scoreValue = 0;
+let topScore = 0;
+let isMoving = false;
 
 function createGrid() {
+    
     const gameTable = document.querySelector(".game-table");
     const score = document.querySelector("#score-value");
+    const scoreTop = document.querySelector("#top-score");
     gameTable.innerHTML = "";
     score.innerHTML = scoreValue;
+    scoreTop.innerHTML = topScore;
     
     game[getRandom(4)][getRandom(4)] = Math.random() < 0.5 ? 2 : 4;
     game[getRandom(4)][getRandom(4)] = Math.random() < 0.5 ? 2 : 4;
@@ -55,17 +61,41 @@ function updateGrid() {
         
     }
     if (loseGame()){
-        alert("you lose :(")
-        if (confirm("Game over — Restart?")) {
-            clearGrid();
-            createGrid();
-        }
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                alert("you lose :(")
+                if (confirm("Game over — Restart?")) {
+                    topScore = scoreValue;
+                    scoreValue = 0;
+                    clearGrid();
+                    createGrid();
+                }
+            });
+        });
+    }
+    if (winGame()){
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                alert("You win")
+                if (confirm("Play again — Reset game")) {
+                    topScore = 0;
+                    scoreValue = 0;
+                    clearGrid();
+                    createGrid();
+                }
+            });
+        });
     }
 }
 
 function winGame() {
-
-    return win;
+    for (let i = 0; i < game.length; i++) {
+        for (let j = 0; j < game[i].length; j++) {
+            if (game[i][j] === 2048) 
+                return true;
+        }
+    }
+    return false;
 }
 
 function loseGame() {
@@ -211,43 +241,63 @@ function spawnTile() {
             if (game[i][j] === 0) empty.push([i, j]);
         }
     }
-
-    if (empty.length === 0) return;
+    if (empty.length === 0)
+        return;
 
     let [x, y] = empty[Math.floor(Math.random() * empty.length)];
     game[x][y] = Math.random() < 0.5 ? 2 : 4;
 }
 
+function hasChanged(before, after) {
+    for (let i = 0; i < before.length; i++) {
+        for (let j = 0; j < before[i].length; j++) {
+            if (before[i][j] !== after[i][j]) return true;
+        }
+    }
+    return false;
+}
+
 function handleUP() {
+    const before = game.map(row => [...row]);
     moveUp();
     mergeUp();
     moveUp();
-    spawnTile();
+    if (hasChanged(before, game)) {
+        spawnTile();
+    }
     updateGrid();
 }
 
-
 function handleDown() {
+    const before = game.map(row => [...row]);
     moveDown();
     mergeDown();
     moveDown();
-    spawnTile();
+    if (hasChanged(before, game)) {
+        spawnTile();
+    }
     updateGrid();
 }
 
 function handleLeft() {
+    const before = game.map(row => [...row]);
     moveLeft();
     mergeLeft();
     moveLeft();
-    spawnTile();
+    if (hasChanged(before, game)) {
+        spawnTile();
+    }
     updateGrid();
 }
 
 function handleRight() {
+    const before = game.map(row => [...row]);
     moveRight();
     mergeRight();
     moveRight();
-    spawnTile();
+    if (hasChanged(before, game)) {
+        spawnTile();
+    }
     updateGrid();
 }
 
@@ -255,6 +305,9 @@ function playGame() {
     document.addEventListener("keydown", function(event) {
        if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(event.key))
         event.preventDefault();
+        if (isMoving)
+            return;
+        isMoving = true;
         switch(event.key) {
             case "ArrowUp":
                 handleUP();
@@ -269,6 +322,9 @@ function playGame() {
                 handleRight();
                 break;
         }
+        setTimeout(() => {
+            isMoving = false;
+        }, 100);
     });
 }
 
@@ -283,6 +339,8 @@ function clearGrid() {
 function restartGame() {
     const btn = document.querySelector('input[type="button"]');
     btn.addEventListener("click", function () {
+        topScore = scoreValue;
+        scoreValue = 0;
         clearGrid();
         createGrid();
     });
