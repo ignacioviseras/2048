@@ -2,8 +2,10 @@ services:
   web:
     container_name: 2048-game
     build:
-      context: ../ex00
+      context: .
     ports:
       - "5555:80"
     volumes:
       - ./:/usr/share/nginx/html
+      - ./.logs/nginx:/var/log/nginx
+    
