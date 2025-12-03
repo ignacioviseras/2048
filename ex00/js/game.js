@@ -68,86 +68,44 @@ function updateGrid() {
         }
 
         // merges
-        for (let [x, y] of merges) animateMerge(x, y);
-        merges = [];
-        movements = [];
-
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                for (let [x, y] of merges)
+                    animateMerge(x, y);
+                merges = [];
+                movements = [];
+            });
+        });
         if (loseGame()) {
-            alert("you lose :(");
-            if (confirm("Game over — Restart?")) {
-                topScore = scoreValue;
-                scoreValue = 0;
-                clearGrid();
-                createGrid();
-            }
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    alert("you lose :(")
+                    if (confirm("Game over — Restart?")) {
+                        topScore = scoreValue;
+                        scoreValue = 0;
+                        clearGrid();
+                        createGrid();
+                    }
+                });
+            });
         }
 
         if (winGame()) {
-            alert("You win");
-            if (confirm("Play again — Reset game")) {
-                topScore = 0;
-                scoreValue = 0;
-                clearGrid();
-                createGrid();
-            }
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    alert("You win")
+                    if (confirm("Play again — Reset game")) {
+                        topScore = 0;
+                        scoreValue = 0;
+                        clearGrid();
+                        createGrid();
+                    }
+                });
+            });
         }
 
     }, 50); // pequeño delay para que se vea la animación
 }
-
-
-// function updateGrid() {
-//     const gameTable = document.querySelector(".game-table");
-//     document.querySelector("#score-value").textContent = scoreValue;
-//     const cells = gameTable.children;
-//     let x = 0;
-//     animateMovements();
-//     movements = [];
-//     for (let i = 0; i < game.length; i++) {
-//         for (let j = 0; j < game[i].length; j++) {
-//             let value = game[i][j];
-//             cells[x].textContent = value == 0 ? "": value;
-//             cells[x].className = "num";
-//             cells[x].style.backgroundColor = getColor(value);
-//             x++;
-//         }
-        
-//     }
-//     requestAnimationFrame(() => {
-//         requestAnimationFrame(() => {
-//             for (let [x, y] of merges) {
-//                 animateMerge(x, y);
-//             }
-//             merges = [];
-//         });
-//     });
-//     if (loseGame()){
-//         requestAnimationFrame(() => {
-//             requestAnimationFrame(() => {
-//                 alert("you lose :(")
-//                 if (confirm("Game over — Restart?")) {
-//                     topScore = scoreValue;
-//                     scoreValue = 0;
-//                     clearGrid();
-//                     createGrid();
-//                 }
-//             });
-//         });
-//     }
-//     if (winGame()){
-//         requestAnimationFrame(() => {
-//             requestAnimationFrame(() => {
-//                 alert("You win")
-//                 if (confirm("Play again — Reset game")) {
-//                     topScore = 0;
-//                     scoreValue = 0;
-//                     clearGrid();
-//                     createGrid();
-//                 }
-//             });
-//         });
-//     }
-// }
 
 function winGame() {
     for (let i = 0; i < game.length; i++) {
@@ -349,34 +307,6 @@ function animateMerge(x, y) {
     }, 400);
 }
 
-// function animateMovements() {
-//     const gameTable = document.querySelector(".game-table");
-//     const cells = gameTable.children;
-
-//     for (let [x, y, dir] of movements) {
-//         const index = x * 4 + y;
-//         const cell = cells[index];
-
-//         if (!cell)
-//             continue;
-//         cell.style.setProperty("--delay", `${index * 50}ms`);
-//         if (dir === "up")
-//             cell.classList.add("move-up");
-//         if (dir === "down") 
-//             cell.classList.add("move-down");
-//         if (dir === "left")
-//             cell.classList.add("move-left");
-//         if (dir === "right")
-//             cell.classList.add("move-right");
-//     }
-
-//     setTimeout(() => {
-//         for (let cell of cells) {
-//             cell.classList.remove("move-up", "move-down", "move-left", "move-right");
-//         }
-//     }, 120);
-// }
-
 function animateMovements() {
     const gameTable = document.querySelector(".game-table");
     const cells = gameTable.children;
@@ -385,8 +315,9 @@ function animateMovements() {
         const index = x * 4 + y;
         const cell = cells[index];
 
-        if (!cell) continue;
-
+        if (!cell)
+            continue;
+        cell.style.setProperty("--delay", `${index * 50}ms`);
         cell.classList.add("move-" + dir);
     }
 
