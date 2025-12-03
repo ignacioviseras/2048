@@ -117,6 +117,10 @@ function updateGrid() {
                         clearGrid();
                         createGrid();
                     }
+                    topScore = 0;
+                    scoreValue = 0;
+                    clearGrid();
+                    createGrid();
                 });
             });
         }
