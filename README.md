@@ -2,7 +2,7 @@
 
 Juego 2048, desarrollado como parte del bootcamp de globant.
 
-[20251203-1033-40.3791281.mp4](2048/20251203-1033-40.3791281.mp4)
+[20251203-1033-40.3791281.mp4](video/20251203-1033-40.3791281.mp4)
 
 Para levantar el proyecto tenemos que hacer los siguientes comandos
 
